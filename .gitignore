@@ -1,0 +1,19 @@
+# Solo se versionan las prácticas
+/*
+!/.gitignore
+!/README.md
+!/P0/
+!/P1/
+
+# Entornos y cachés
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+
+# Instrucciones para asistentes de código
+CLAUDE.md
+AGENTS.md
+
+# Exportación HTML antigua (la buena está en P1/entrega/)
+/P1/P1_Busqueda.html

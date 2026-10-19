@@ -1,0 +1,128 @@
+CÓDIGO PARA LA PREGUNTA 1
+Copiado tal cual de search_mod.py (números de línea entre paréntesis).
+
+=====================================================================
+PREGUNTA 1.1 - breadth_first_search vs best_first_search
+=====================================================================
+
+---------------------------------------------------------------------
+breadth_first_search  (líneas 184-200)
+---------------------------------------------------------------------
+
+def breadth_first_search(problem):
+    "Search shallowest nodes in the search tree first."
+    node = Node(problem.initial)
+    if problem.is_goal(problem.initial):
+        return node
+    frontier = FIFOQueue([node])
+    reached = {problem.initial}
+    while frontier:
+        node = frontier.pop()
+        for child in expand(problem, node):
+            s = child.state
+            if problem.is_goal(s):
+                return child
+            if s not in reached:
+                reached.add(s)
+                frontier.appendleft(child)
+    return failure
+
+---------------------------------------------------------------------
+best_first_search  (líneas 100-114)
+---------------------------------------------------------------------
+
+def best_first_search(problem, f):
+    "Search nodes with minimum f(node) value first."
+    node = Node(problem.initial)
+    frontier = PriorityQueue([node], key=f)
+    reached = {problem.initial: node}
+    while frontier:
+        node = frontier.pop()
+        if problem.is_goal(node.state):
+            return node
+        for child in expand(problem, node):
+            s = child.state
+            if s not in reached or child.path_cost < reached[s].path_cost:
+                reached[s] = child
+                frontier.add(child)
+    return failure
+
+
+---------------------------------------------------------------------
+Estructuras de datos para la frontera  (líneas 72-96)
+---------------------------------------------------------------------
+
+FIFOQueue = deque
+
+LIFOQueue = list
+
+class PriorityQueue:
+    """A queue in which the item with minimum f(item) is always popped first."""
+
+    def __init__(self, items=(), key=lambda x: x):
+        self.key = key
+        self.items = [] # a heap of (score, item) pairs
+        for item in items:
+            self.add(item)
+
+    def add(self, item):
+        """Add item to the queuez."""
+        pair = (self.key(item), item)
+        heapq.heappush(self.items, pair)
+
+    def pop(self):
+        """Pop and return the item with min f(item) value."""
+        return heapq.heappop(self.items)[1]
+
+    def top(self): return self.items[0][1]
+
+    def __len__(self): return len(self.items)
+
+(deque viene de "from collections import deque" y heapq es el módulo
+estándar de Python para montículos.)
+
+
+---------------------------------------------------------------------
+Funciones auxiliares que usan las dos  (líneas 31-50)
+---------------------------------------------------------------------
+
+class Node:
+    "A Node in a search tree."
+    def __init__(self, state, parent=None, action=None, path_cost=0):
+        self.__dict__.update(state=state, parent=parent, action=action, path_cost=path_cost)
+
+    def __repr__(self): return '<{}>'.format(self.state)
+    def __len__(self): return 0 if self.parent is None else (1 + len(self.parent))
+    def __lt__(self, other): return self.path_cost < other.path_cost
+
+
+failure = Node('failure', path_cost=math.inf) # Indicates an algorithm couldn't find a solution.
+
+
+def expand(problem, node):
+    "Expand a node, generating the children nodes."
+    s = node.state
+    for action in problem.actions(s):
+        s1 = problem.result(s, action)
+        cost = node.path_cost + problem.action_cost(s, action, s1)
+        yield Node(s1, node, action, cost)
+
+
+=====================================================================
+PREGUNTA 1.2 - ¿Qué calcula g(n) en astar_search?
+=====================================================================
+
+---------------------------------------------------------------------
+g y astar_search  (líneas 130-135)
+---------------------------------------------------------------------
+
+def g(n): return n.path_cost
+
+
+def astar_search(problem, h=None):
+    """Search nodes with minimum f(n) = g(n) + h(n)."""
+    h = h or problem.h
+    return best_first_search(problem, f=lambda n: g(n) + h(n))
+
+(path_cost se va acumulando en expand(): el coste del padre más
+action_cost del paso. Ver la función expand de arriba.)
