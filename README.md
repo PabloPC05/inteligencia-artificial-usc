@@ -2,7 +2,15 @@
 
 Prácticas de la asignatura **Intelixencia Artificial** (G4012328) del Grado en Ingeniería Informática de la Universidade de Santiago de Compostela, curso 2026/2027. Autor: Pablo Pardo Cotos.
 
-Cada práctica está en su carpeta, con el material que venía con el enunciado, mi solución y lo entregado.
+Cada práctica está en su carpeta, con el material que venía con el enunciado, mi solución y lo entregado. El repositorio es una copia completa de la carpeta `IA` de mi ordenador, sin los entornos virtuales `.venv/` (se recrean con `requirements.txt`, ver al final).
+
+En la raíz está el material general de la asignatura:
+- `IA_apuntesCompletos.pdf`: apuntes.
+- `bitacoras_IA.pdf`: bitácoras.
+- `organizacion_practicas_cv.pdf`: organización de las prácticas en el Campus Virtual.
+- `tests.txt`: vacío.
+
+Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1) son instrucciones para asistentes de código, y `P0/.vscode/` es la configuración de VS Code.
 
 ## P0 — Introducción a Python
 
@@ -26,6 +34,7 @@ Resolución del 8-puzzle y del problema del viajante de comercio con las estrate
 - `P1_Busqueda.ipynb`: el cuaderno con la implementación y las respuestas al cuestionario, en el mismo estado en que se entregó.
 - `entrega/`: lo entregado en el Campus Virtual el 5 de octubre de 2026 (`PARDO_COTOS_PABLO_Busqueda.ipynb`, su exportación `.html` y el `.zip`).
 - `Pregunta1_codigo.txt`: el código de `search_mod.py` con números de línea, que usé como apoyo para responder la Pregunta 1.
+- `P1_Busqueda.html`: una exportación HTML anterior a la definitiva, que es la de `entrega/`.
 
 Lo que implementé:
 - La clase `ProblemaViajanteComercio`. El estado es la tupla de ciudades visitadas, empezando en `(0,)`, y la meta es un ciclo cerrado que vuelve a la ciudad 0.
@@ -33,7 +42,8 @@ Lo que implementé:
 - La comparación de estrategias y heurísticas, tanto en el 8-puzzle como en el viajante.
 
 **El test de evaluación:**
-- `Test_P1_resultado.png`: captura de la revisión del *Test P1: Búsqueda en espacios de estados*. Lo hice en la sesión de prácticas del lunes 19 de octubre de 2026, de 15:41 a 16:35.
+- `test/Test_P1_resultado.png`: captura de la revisión del *Test P1: Búsqueda en espacios de estados*. Lo hice en la sesión de prácticas del lunes 19 de octubre de 2026, de 15:41 a 16:35.
+- `test/P1_Busqueda_durante_test.ipynb`: el cuaderno tal como quedó tras el test, con las instancias del test sustituidas en las celdas.
 - El test comprobaba la comprensión de la entrega. Tenía preguntas teóricas de opción múltiple y otras en las que había que ejecutar el código de la práctica con instancias nuevas.
 - Para responder lo resolví ejecutando mi propio cuaderno.
 - Una vez terminado, comprobé las respuestas volviendo a ejecutar el mismo código y coincidieron en las 8 preguntas. La única duda es de formato: en la pregunta 8 escribí un coste con punto decimal y se pedía coma.
@@ -49,3 +59,14 @@ jupyter notebook P1_Busqueda.ipynb
 ```
 
 El cuaderno completo tarda alrededor de un minuto. Casi todo ese tiempo es la comparación de heurísticas en los grafos de 10 ciudades.
+
+## Recrear los entornos
+
+Cada práctica tenía su `.venv` con Python 3.11. Las versiones exactas de los paquetes están en `P0/requirements.txt` y `P1/requirements.txt`. Para recrear un entorno, desde la carpeta de la práctica:
+
+```
+uv venv --python 3.11
+uv pip install -r requirements.txt
+```
+
+Sin uv: `py -3.11 -m venv .venv`, luego `.venv\Scripts\pip install -r requirements.txt`.
