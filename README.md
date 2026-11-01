@@ -1,12 +1,10 @@
 # Inteligencia Artificial (USC) — Prácticas
 
-Prácticas de la asignatura **Intelixencia Artificial** (G4012328) del Grado en Ingeniería Informática de la Universidade de Santiago de Compostela, curso 2026/2027. Autor: Pablo Pardo Cotos.
+Prácticas de la asignatura **Inteligencia Artificial** (*Intelixencia Artificial*, G4012328) del **Grado en Ingeniería Informática de la Universidade de Santiago de Compostela (USC)**, curso 2026/2027. Autor: Pablo Pardo Cotos.
 
-Cada práctica está en su carpeta, con el material que venía con el enunciado, mi solución y lo entregado. El repositorio es una copia completa de la carpeta `IA` de mi ordenador, sin los entornos virtuales `.venv/` (se recrean con `requirements.txt`, ver al final).
+Contiene las prácticas P0 y P1, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes y las diapositivas de teoría no están incluidos.
 
-En la raíz está el material general de la asignatura:
-- `IA_apuntesCompletos.pdf`: apuntes.
-- `bitacoras_IA.pdf`: bitácoras.
+En la raíz:
 - `organizacion_practicas_cv.pdf`: organización de las prácticas en el Campus Virtual.
 - `tests.txt`: vacío.
 
@@ -25,7 +23,6 @@ Resolución del 8-puzzle y del problema del viajante de comercio con las estrate
 
 **Material del enunciado:**
 - `P1.pdf`: enunciado de la práctica.
-- `Busca en espazos de estados.pdf`: diapositivas de teoría (en gallego).
 - `search_mod.py` y `helpers_mod.py`: módulos proporcionados, basados en AIMA-Python.
 - `data/`: grafos de ciudades para el viajante. Contiene `grafo8cidades.txt` (8 ciudades gallegas), `grafo4cidades.txt` e instancias aleatorias de 10, 11 y 12 ciudades.
 - Las imágenes `.png` que se incrustan en el cuaderno.
@@ -60,13 +57,15 @@ jupyter notebook P1_Busqueda.ipynb
 
 El cuaderno completo tarda alrededor de un minuto. Casi todo ese tiempo es la comparación de heurísticas en los grafos de 10 ciudades.
 
-## Recrear los entornos
+## El entorno de Python
 
-Cada práctica tenía su `.venv` con Python 3.11. Las versiones exactas de los paquetes están en `P0/requirements.txt` y `P1/requirements.txt`. Para recrear un entorno, desde la carpeta de la práctica:
+`P0/.venv/` es el entorno virtual tal como lo usé, creado con uv en Windows con Python 3.11 (sin las cachés `__pycache__`). Solo funciona en Windows y con Python 3.11 instalado por uv en la misma ruta; en otro equipo, mejor recrearlo. VS Code lo usa como intérprete (`P0/.vscode/settings.json`).
+
+El de P1 no se conserva. Las versiones exactas de los paquetes de las dos prácticas están en `P0/requirements.txt` y `P1/requirements.txt`. Para recrear un entorno, desde la carpeta de la práctica:
 
 ```
 uv venv --python 3.11
 uv pip install -r requirements.txt
 ```
 
-Sin uv: `py -3.11 -m venv .venv`, luego `.venv\Scripts\pip install -r requirements.txt`.
+Sin uv: `py -3.11 -m venv .venv` y después `.venv\Scripts\pip install -r requirements.txt` (en macOS o Linux, `python3.11 -m venv .venv` y `.venv/bin/pip install -r requirements.txt`).

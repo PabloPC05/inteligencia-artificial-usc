@@ -1,4 +1,11 @@
-# Entornos y cachés (se recrean con requirements.txt)
-.venv/
+# Cachés (se recrean solas)
 __pycache__/
 .ipynb_checkpoints/
+
+# Apuntes y material de teoría: se quedan en el ordenador, no van al repositorio
+IA_apuntesCompletos.pdf
+bitacoras_IA.pdf
+Busca en espazos de estados.pdf
+
+# Prácticas que todavía no se publican
+P2/
