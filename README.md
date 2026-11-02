@@ -2,13 +2,13 @@
 
 Prácticas de la asignatura **Inteligencia Artificial** (*Intelixencia Artificial*, G4012328) del **Grado en Ingeniería Informática de la Universidade de Santiago de Compostela (USC)**, curso 2026/2027. Autor: Pablo Pardo Cotos.
 
-Contiene las prácticas P0 y P1, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes y las diapositivas de teoría no están incluidos.
+Contiene las prácticas P0, P1 y P2, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes y las diapositivas de teoría no están incluidos.
 
 En la raíz:
 - `organizacion_practicas_cv.pdf`: organización de las prácticas en el Campus Virtual.
 - `tests.txt`: vacío.
 
-Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1) son instrucciones para asistentes de código, y `P0/.vscode/` es la configuración de VS Code.
+Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1 y P2) son instrucciones para asistentes de código, y `P0/.vscode/` es la configuración de VS Code.
 
 ## P0 — Introducción a Python
 
@@ -56,6 +56,24 @@ jupyter notebook P1_Busqueda.ipynb
 ```
 
 El cuaderno completo tarda alrededor de un minuto. Casi todo ese tiempo es la comparación de heurísticas en los grafos de 10 ciudades.
+
+## P2 — CLIPS y sistemas basados en conocimiento
+
+Introducción a CLIPS 6.4.2 y construcción de varios sistemas basados en conocimiento, siguiendo el guión de prácticas. Los programas se cargan en el IDE de CLIPS con `(load)` o con los ficheros de órdenes `X_inicio.bat` ("Load batch"), que hay que lanzar desde dentro de su carpeta.
+
+**Material del enunciado:**
+- `enunciado`: el guión de la práctica, un PDF sin extensión.
+- `auto.clp`: el ejemplo de diagnóstico de averías que viene con CLIPS, que se analiza en la sección 3.
+
+**Mi trabajo:**
+- `1_4_hechos_y_reglas.clp`: los hechos con `deffacts` y las reglas de los ejercicios 1.1 a 1.4.
+- `1_5_semaforo.clp`: el agente vehículo o peatón que decide si pasar un cruce con semáforo, con preguntas por teclado mediante `(read)`.
+- `ejercicio2_1/`, `ejercicio2_3/` y `ejercicio2_4/`: los ejercicios de la sección 2, cada uno con sus reglas en `N_*.clp`, sus hechos en `N_*.facts.clp` y su `N_inicio.bat`. El 2.3 deduce relaciones de parentesco (hermanos, tíos, sobrinos, primos y abuelos) a partir de `progenitor`, `hombre` y `mujer`, y el 2.4 añade las parejas y el parentesco político.
+- `memoria/`: la memoria en LaTeX, con las cuestiones y sus respuestas. El PDF final es `memoria/output/Practica2_PabloPardoCotos.pdf` y en `memoria/LEEME.md` está cómo compilarla.
+- `entrega/`: lo entregado en el Campus Virtual, el PDF de las respuestas y los ficheros del ejercicio 2.4, con el `.zip` tal como se subió.
+- `capturas/`: las capturas de las ventanas Dialog, Facts y Agenda del IDE de CLIPS que ilustran la sección 1.
+- `transcripciones/`: las salidas de las sesiones de CLIPS en línea de órdenes.
+- `diagramas/`: el árbol de encadenamiento de las QUERY RULES de `auto.clp`, en Graphviz.
 
 ## El entorno de Python
 

@@ -1,0 +1,113 @@
+\section{Ejercicios básicos con CLIPS}
+
+\subsection{Ejercicio 2.1}
+
+\textbf{Si cargamos la regla y el fichero de datos anterior, ¿cuántas activaciones se producen de la regla?}
+
+Dos, una por cada hecho que encaja con \texttt{(EsPadre ?variable)}: f-1 (Pedro) y f-2 (Juan).
+
+\begin{itemize}
+\item \texttt{(run 1)}: se ejecuta solo la activación más reciente (Juan) y se añade \texttt{(QuiereASusHijos Juan)}. La de Pedro queda en la Agenda. \texttt{(reset)} restaura los hechos iniciales y vuelve a generar las dos activaciones.
+\item \texttt{(run 2)}: se ejecutan las dos y se añaden \texttt{(QuiereASusHijos Juan)} y \texttt{(QuiereASusHijos Pedro)}.
+\item \texttt{(run)}: se ejecutan todas las activaciones, que son estas dos, con el mismo resultado que \texttt{(run 2)}.
+\end{itemize}
+
+\subsection{Cuestiones 2.3}
+
+Los hechos son \texttt{(progenitor X Y)} (X es padre o madre de Y) y \texttt{(hombre X)} o \texttt{(mujer X)}. Las relaciones deducidas se guardan como \texttt{(relacion <tipo> X Y)} (``X es <tipo> de Y''):
+
+\begin{lstlisting}
+(defrule hermanos
+   (progenitor ?padre ?x) (hombre ?padre)
+   (progenitor ?madre ?x) (mujer ?madre)
+   (progenitor ?padre ?y&~?x) (progenitor ?madre ?y)
+   => (assert (relacion hermano ?x ?y)))
+
+(defrule tios
+   (relacion hermano ?t ?p) (progenitor ?p ?s)
+   => (assert (relacion tio ?t ?s)))
+
+(defrule sobrinos
+   (relacion tio ?t ?s)
+   => (assert (relacion sobrino ?s ?t)))
+
+(defrule primos
+   (progenitor ?a ?x) (progenitor ?b ?y) (relacion hermano ?a ?b)
+   => (assert (relacion primo ?x ?y)))
+
+(defrule abuelos
+   (progenitor ?a ?p) (progenitor ?p ?n)
+   => (assert (relacion abuelo ?a ?n)))
+\end{lstlisting}
+
+Dos personas son hermanos cuando comparten madre y padre. Sobre esa relación se apoyan las demás, ya que un tío es el hermano de un progenitor, los primos son los hijos de dos hermanos y un abuelo es el progenitor de un progenitor.
+
+\textbf{1. ¿Quiénes son los hermanos, tíos, sobrinos, primos y abuelos de Archie?}
+
+Solo tiene abuelo, que es Carlos. No tiene hermanos, tíos, sobrinos ni primos. La regla de hermanos exige compartir padre y madre, y en los hechos no figura la madre de Guillermo y Enrique ni la de Archie y Lillibet.
+
+\textbf{2. ¿Quiénes son abuelos y de quién?}
+
+\begin{itemize}
+\item Isabel y Felipe, de Guillermo y Enrique.
+\item Carlos, de Jorge, Carlota, Luis, Archie y Lillibet.
+\end{itemize}
+
+\textbf{3. ¿Quiénes son tíos y de quién?}
+
+Ana, Andrés y Eduardo son tíos de Guillermo y de Enrique.
+
+\subsection{Cuestiones 2.4}
+
+Se añaden los hechos nuevos:
+
+\begin{lstlisting}
+(mujer Camilla) (mujer Diana) (hombre Timothy) (mujer Sofia)
+(progenitor Diana Guillermo) (progenitor Diana Enrique)
+(pareja Carlos Camilla) (pareja Ana Timothy) (pareja Eduardo Sofia)
+\end{lstlisting}
+
+Con Diana como madre, Guillermo y Enrique pasan a ser hermanos sin necesidad de reglas nuevas. Las parejas sí requieren reglas nuevas, para el parentesco político:
+
+\begin{lstlisting}
+(defrule pareja-simetrica
+   (pareja ?x ?y) => (assert (pareja ?y ?x)))
+
+(defrule tios-politicos
+   (pareja ?p ?t) (relacion tio ?t ?s)
+   => (assert (relacion tio-politico ?p ?s)))
+
+(defrule sobrinos-politicos
+   (relacion tio-politico ?p ?s)
+   => (assert (relacion sobrino-politico ?s ?p)))
+\end{lstlisting}
+
+Un tío político es la pareja de un tío, y el sobrino político es la relación simétrica. La regla de parejas hace falta porque los hechos solo dan una dirección de cada pareja.
+
+\textbf{1. ¿Quiénes son los hermanos, tíos, sobrinos, primos y abuelos de Archie?}
+
+\begin{itemize}
+\item Hermanos: ninguno, porque sigue sin figurar su madre.
+\item Tíos: Guillermo.
+\item Sobrinos: ninguno.
+\item Primos: Jorge, Carlota y Luis.
+\item Abuelos: Carlos y Diana.
+\end{itemize}
+
+\textbf{2. ¿Quiénes son abuelos y de quién?}
+
+\begin{itemize}
+\item Isabel y Felipe, de Guillermo y Enrique.
+\item Carlos y Diana, de Jorge, Carlota, Luis, Archie y Lillibet.
+\end{itemize}
+
+\textbf{3. ¿Quiénes son tíos y de quién?}
+
+\begin{itemize}
+\item Ana, Andrés y Eduardo, de Guillermo y Enrique.
+\item Guillermo, de Archie y Lillibet.
+\item Enrique, de Jorge, Carlota y Luis.
+\item Tíos políticos: Timothy y Sofía, de Guillermo y Enrique.
+\end{itemize}
+
+Camilla no tiene ninguna de estas relaciones, porque no es progenitora de los hijos de Carlos y Carlos no es tío de nadie.

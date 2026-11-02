@@ -1,0 +1,16 @@
+         CLIPS (6.4.2 1/14/25)
+CLIPS> (clear)
+CLIPS> (load "1_personas_v1.clp")
+*
+TRUE
+CLIPS> (reset)
+CLIPS> (assert (EsPadre Pedro))
+<Fact-1>
+CLIPS> (agenda)
+0      Regla1: f-1
+For a total of 1 activation.
+CLIPS> (run 1)
+CLIPS> (facts)
+f-1     (EsPadre Pedro)
+f-2     (QuiereASusHijos Pedro)
+For a total of 2 facts.

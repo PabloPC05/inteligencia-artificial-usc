@@ -1,0 +1,37 @@
+         CLIPS (6.4.2 1/14/25)
+CLIPS> (batch "1_inicio.bat")
+TRUE
+CLIPS> (clear)
+CLIPS> (load "1_personas.clp")
+*
+TRUE
+CLIPS> (load "1_personas.facts.clp")
+$
+TRUE
+CLIPS> (reset)
+CLIPS> (agenda)
+0      LosPadresQuierenALosHijos: f-2
+0      LosPadresQuierenALosHijos: f-1
+For a total of 2 activations.
+CLIPS> (run 1)
+CLIPS> (facts)
+f-1     (EsPadre Pedro)
+f-2     (EsPadre Juan)
+f-3     (QuiereASusHijos Juan)
+For a total of 3 facts.
+CLIPS> (reset)
+CLIPS> (run 2)
+CLIPS> (facts)
+f-1     (EsPadre Pedro)
+f-2     (EsPadre Juan)
+f-3     (QuiereASusHijos Juan)
+f-4     (QuiereASusHijos Pedro)
+For a total of 4 facts.
+CLIPS> (reset)
+CLIPS> (run)
+CLIPS> (facts)
+f-1     (EsPadre Pedro)
+f-2     (EsPadre Juan)
+f-3     (QuiereASusHijos Juan)
+f-4     (QuiereASusHijos Pedro)
+For a total of 4 facts.

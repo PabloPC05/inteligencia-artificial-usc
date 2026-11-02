@@ -1,0 +1,9 @@
+         CLIPS (6.4.2 1/14/25)
+CLIPS> (load "1_5_semaforo.clp")
+******
+TRUE
+CLIPS> (reset)
+CLIPS> (run)
+Que tipo de agente es (vehiculo/peaton)? vehiculo
+Como esta el semaforo para los coches (verde/rojo/ambar/intermitente)? rojo
+El agente vehiculo debe esperar

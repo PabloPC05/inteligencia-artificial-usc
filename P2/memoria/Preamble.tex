@@ -1,0 +1,61 @@
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+\fi
+\usepackage[spanish,es-tabla,es-nodecimaldot,es-noquoting,es-noshorthands]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage[htt]{hyphenat}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{booktabs,tabularx,array,longtable,calc}
+\usepackage{enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[font=small,labelfont=bf]{caption}
+\captionsetup[figure]{labelformat=empty}
+\usepackage{listings}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Práctica 2. Guion de prácticas CLIPS},pdfauthor={Pablo Pardo Cotos},pdfsubject={Intelixencia Artificial}}
+\graphicspath{{img/}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.15}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setcounter{tocdepth}{2}
+% Las subsecciones llevan su propio número de ejercicio en el título
+\setcounter{secnumdepth}{1}
+% Colocación de figuras
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\pagestyle{plain}
+\urlstyle{same}
+% Código CLIPS
+\definecolor{azul}{HTML}{17486C}
+\definecolor{verde}{HTML}{22685E}
+\definecolor{papel}{HTML}{F1F6F9}
+\lstdefinelanguage{CLIPS}{
+  morekeywords={defrule,deffacts,deffunction,deftemplate,assert,retract,printout,read,
+    bind,if,then,else,not,and,or,test,declare,salience,crlf,reset,run,clear,load,batch,facts,agenda,rules},
+  sensitive=true,
+  morecomment=[l]{;},
+  morestring=[b]",
+  alsoletter={-?},
+}
+\lstset{language=CLIPS,basicstyle=\ttfamily\small,keywordstyle=\color{azul}\bfseries,
+  commentstyle=\color{verde},stringstyle=\color{Maroon},showstringspaces=false,
+  breaklines=true,columns=fullflexible,keepspaces=true,frame=single,
+  rulecolor=\color{azul!30},backgroundcolor=\color{papel},aboveskip=6pt,belowskip=6pt,tabsize=3,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1 {¿}{{?`}}1}
+% Macros que usa el texto convertido desde Markdown
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\makeatletter\@ifundefined{c@none}{\newcounter{none}}{}\makeatother

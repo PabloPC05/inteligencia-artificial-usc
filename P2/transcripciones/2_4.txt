@@ -1,0 +1,105 @@
+         CLIPS (6.4.2 1/14/25)
+CLIPS> (batch "2_4_inicio.bat")
+TRUE
+CLIPS> (clear)
+CLIPS> (load "2_4_parentesco.clp")
+********!!!!
+TRUE
+CLIPS> (load "2_4_parentesco.facts.clp")
+$$$$$
+TRUE
+CLIPS> (reset)
+CLIPS> (run)
+CLIPS> (parientes Archie)
+Parientes de Archie:
+   Guillermo es tio de Archie
+   Luis es primo de Archie
+   Carlota es prima de Archie
+   Jorge es primo de Archie
+   Diana es abuela de Archie
+   Carlos es abuelo de Archie
+6
+CLIPS> (listar abuelo)
+   Diana es abuela de Lillibet
+   Diana es abuela de Archie
+   Diana es abuela de Luis
+   Diana es abuela de Carlota
+   Diana es abuela de Jorge
+   Carlos es abuelo de Lillibet
+   Carlos es abuelo de Archie
+   Carlos es abuelo de Luis
+   Carlos es abuelo de Carlota
+   Carlos es abuelo de Jorge
+   Isabel es abuela de Enrique
+   Felipe es abuelo de Enrique
+   Isabel es abuela de Guillermo
+   Felipe es abuelo de Guillermo
+14
+CLIPS> (listar tio)
+   Enrique es tio de Luis
+   Enrique es tio de Carlota
+   Enrique es tio de Jorge
+   Guillermo es tio de Lillibet
+   Guillermo es tio de Archie
+   Eduardo es tio de Enrique
+   Eduardo es tio de Guillermo
+   Andres es tio de Enrique
+   Andres es tio de Guillermo
+   Ana es tia de Enrique
+   Ana es tia de Guillermo
+11
+CLIPS> (listar tio-politico)
+   Sofia es tia politica de Enrique
+   Sofia es tia politica de Guillermo
+   Timothy es tio politico de Enrique
+   Timothy es tio politico de Guillermo
+4
+CLIPS> (listar sobrino)
+   Luis es sobrino de Enrique
+   Carlota es sobrina de Enrique
+   Jorge es sobrino de Enrique
+   Lillibet es sobrina de Guillermo
+   Archie es sobrino de Guillermo
+   Enrique es sobrino de Eduardo
+   Guillermo es sobrino de Eduardo
+   Enrique es sobrino de Andres
+   Guillermo es sobrino de Andres
+   Enrique es sobrino de Ana
+   Guillermo es sobrino de Ana
+11
+CLIPS> (listar sobrino-politico)
+   Enrique es sobrino politico de Sofia
+   Guillermo es sobrino politico de Sofia
+   Enrique es sobrino politico de Timothy
+   Guillermo es sobrino politico de Timothy
+4
+CLIPS> (listar primo)
+   Archie es primo de Jorge
+   Archie es primo de Carlota
+   Archie es primo de Luis
+   Lillibet es prima de Jorge
+   Lillibet es prima de Carlota
+   Lillibet es prima de Luis
+   Luis es primo de Archie
+   Carlota es prima de Archie
+   Jorge es primo de Archie
+   Luis es primo de Lillibet
+   Carlota es prima de Lillibet
+   Jorge es primo de Lillibet
+12
+CLIPS> (listar hermano)
+   Enrique es hermano de Guillermo
+   Guillermo es hermano de Enrique
+   Eduardo es hermano de Andres
+   Eduardo es hermano de Ana
+   Eduardo es hermano de Carlos
+   Carlos es hermano de Eduardo
+   Ana es hermana de Eduardo
+   Andres es hermano de Eduardo
+   Andres es hermano de Ana
+   Andres es hermano de Carlos
+   Carlos es hermano de Andres
+   Ana es hermana de Andres
+   Ana es hermana de Carlos
+   Carlos es hermano de Ana
+14

@@ -1,0 +1,46 @@
+         CLIPS (6.4.2 1/14/25)
+CLIPS> (batch "2_3_inicio.bat")
+TRUE
+CLIPS> (clear)
+CLIPS> (load "2_3_parentesco.clp")
+*****!!!!
+TRUE
+CLIPS> (load "2_3_parentesco.facts.clp")
+$$
+TRUE
+CLIPS> (reset)
+CLIPS> (run)
+CLIPS> (parientes Archie)
+Parientes de Archie:
+   Carlos es abuelo de Archie
+1
+CLIPS> (listar abuelo)
+   Carlos es abuelo de Lillibet
+   Carlos es abuelo de Archie
+   Carlos es abuelo de Luis
+   Carlos es abuelo de Carlota
+   Carlos es abuelo de Jorge
+   Isabel es abuela de Enrique
+   Felipe es abuelo de Enrique
+   Isabel es abuela de Guillermo
+   Felipe es abuelo de Guillermo
+9
+CLIPS> (listar tio)
+   Eduardo es tio de Enrique
+   Eduardo es tio de Guillermo
+   Andres es tio de Enrique
+   Andres es tio de Guillermo
+   Ana es tia de Enrique
+   Ana es tia de Guillermo
+6
+CLIPS> (listar sobrino)
+   Enrique es sobrino de Eduardo
+   Guillermo es sobrino de Eduardo
+   Enrique es sobrino de Andres
+   Guillermo es sobrino de Andres
+   Enrique es sobrino de Ana
+   Guillermo es sobrino de Ana
+6
+CLIPS> (listar primo)
+   (ninguna)
+0

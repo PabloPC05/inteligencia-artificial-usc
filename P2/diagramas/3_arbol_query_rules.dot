@@ -1,0 +1,31 @@
+digraph G {
+  rankdir=TB;
+  graph [fontname="Helvetica", nodesep=0.25, ranksep=0.45];
+  node [shape=box, style="rounded,filled", fillcolor="#E8F0FE", color="#3367D6", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=10, color="#555555"];
+
+  es  [label="determine-engine-state\n(engine-starts ?)"];
+  rn  [label="determine-runs-normally\n(runs-normally ?)"];
+  rot [label="determine-rotation-state\n(engine-rotates ?)"];
+  sl  [label="1. determine-sluggishness"];
+  mf  [label="2. determine-misfiring"];
+  kn  [label="3. determine-knocking"];
+  lo  [label="4. determine-low-output"];
+  gas [label="1. determine-gas-level\n(tank-has-gas ?)"];
+  pss1 [label="2. determine-point-surface-state\n(normal / burned / contaminated)"];
+  pss2 [label="determine-point-surface-state\n(normal / burned / contaminated)"];
+  bat [label="determine-battery-state\n(battery-has-charge ?)"];
+  ct  [label="determine-conductivity-test\n(conductivity-test-positive ?)"];
+
+  es -> rn  [label="yes"];
+  es -> rot [label="no"];
+  rn -> sl [label="no"];
+  sl -> mf [label="no"];
+  mf -> kn [label="no"];
+  kn -> lo [label="no"];
+  lo -> pss2 [label="yes"];
+  rot -> gas [label="yes"];
+  gas -> pss1 [label="yes"];
+  rot -> bat [label="no"];
+  bat -> ct [label="yes"];
+}
