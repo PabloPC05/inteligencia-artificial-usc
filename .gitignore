@@ -10,3 +10,7 @@ Sistemas baseados en co*ecemento.pdf
 
 # Basura de macOS
 .DS_Store
+
+# Práctica 3.1: el entorno virtual (se recrea con requirements.txt) y las diapositivas de teoría
+Practica3.1/.venv/
+Practica3.1/presentacion_regresion_lineal.pdf

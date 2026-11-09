@@ -2,13 +2,13 @@
 
 Prácticas de la asignatura **Inteligencia Artificial** (*Intelixencia Artificial*, G4012328) del **Grado en Ingeniería Informática de la Universidade de Santiago de Compostela (USC)**, curso 2026/2027. Autor: Pablo Pardo Cotos.
 
-Contiene las prácticas P0, P1 y P2, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes y las diapositivas de teoría no están incluidos.
+Contiene las prácticas P0, P1, P2 y 3.1, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes y las diapositivas de teoría no están incluidos.
 
 En la raíz:
 - `organizacion_practicas_cv.pdf`: organización de las prácticas en el Campus Virtual.
 - `tests.txt`: vacío.
 
-Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1 y P2) son instrucciones para asistentes de código, y `P0/.vscode/` es la configuración de VS Code.
+Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1, P2 y 3.1) son instrucciones para asistentes de código, y `P0/.vscode/` y `Practica3.1/.vscode/` son la configuración de VS Code.
 
 ## P0 — Introducción a Python
 
@@ -74,6 +74,33 @@ Introducción a CLIPS 6.4.2 y construcción de varios sistemas basados en conoci
 - `capturas/`: las capturas de las ventanas Dialog, Facts y Agenda del IDE de CLIPS que ilustran la sección 1.
 - `transcripciones/`: las salidas de las sesiones de CLIPS en línea de órdenes.
 - `diagramas/`: el árbol de encadenamiento de las QUERY RULES de `auto.clp`, en Graphviz.
+
+## Práctica 3.1 — Regresión lineal
+
+Regresión lineal con pandas, matplotlib y scikit-learn, en un cuaderno guiado: análisis del dataset de viviendas (superficie y precio), descenso del gradiente programado a mano, modelo con `LinearRegression`, evaluación con train/test y efecto de un outlier. Al final hay un ejercicio libre de regresión multivariante.
+
+**Material del enunciado:**
+- `Practica3.1_RegresionLineal.ipynb` traía el enunciado, en gallego, con el código proporcionado.
+- `vivendas.csv`: 73 viviendas con `superficie` (m²) y `prezo` (miles de euros).
+- Las diapositivas de teoría (`presentacion_regresion_lineal.pdf`) no están incluidas.
+
+**Mi trabajo:**
+- `Practica3.1_RegresionLineal.ipynb`: el cuaderno entregado. El enunciado sigue en gallego y las respuestas a las preguntas 1 a 8 están en español, en la sección "Respostas ao cuestionario".
+- `Practica3.1_RegresionLineal_ES.ipynb`: una copia de trabajo traducida al español, con cada respuesta debajo de su pregunta. Los identificadores y el código son los mismos que en el original. No se entregó.
+- `cereal.csv`: el dataset elegido para el ejercicio libre (*80 Cereals*, de Kaggle, 77 cereales y 16 variables).
+- El ejercicio libre predice el `rating` de los cereales con dos variables, `sugars` y `fiber`. Antes quita las 3 filas con `-1`, que marcan datos que faltan. El modelo queda como rating = 50,13 - 2,00 · sugars + 2,93 · fiber, con una correlación de 0,91 en test.
+- `entrega/`: lo entregado en el Campus Virtual (`PARDO_COTOS_PABLO_RegresionLineal.ipynb` ejecutado, su exportación `.html`, `cereal.csv` y el `.zip` tal como se subió).
+
+### Cómo ejecutarlo
+
+Requiere Python 3 con Jupyter, pandas, matplotlib y scikit-learn. Las versiones exactas que usé (Python 3.13 en macOS) están en `Practica3.1/requirements.txt`. Ejecuta el cuaderno desde la carpeta `Practica3.1/`, porque lee los `.csv` por ruta relativa:
+
+```
+cd Practica3.1
+uv venv --python 3.13
+uv pip install -r requirements.txt
+.venv/bin/jupyter notebook Practica3.1_RegresionLineal.ipynb
+```
 
 ## El entorno de Python
 
