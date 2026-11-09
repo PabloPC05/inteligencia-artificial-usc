@@ -2,15 +2,12 @@
 __pycache__/
 .ipynb_checkpoints/
 
-# Apuntes y material de teoría: se quedan en el ordenador, no van al repositorio
+# Apuntes: se quedan en el ordenador, no van al repositorio (las presentaciones de teoría sí)
 IA_apuntesCompletos.pdf
 bitacoras_IA.pdf
-Busca en espazos de estados.pdf
-Sistemas baseados en co*ecemento.pdf
 
 # Basura de macOS
 .DS_Store
 
-# Práctica 3.1: el entorno virtual (se recrea con requirements.txt) y las diapositivas de teoría
+# Práctica 3.1: el entorno virtual (se recrea con requirements.txt)
 Practica3.1/.venv/
-Practica3.1/presentacion_regresion_lineal.pdf

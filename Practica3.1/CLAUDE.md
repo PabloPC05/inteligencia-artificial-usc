@@ -6,14 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 University AI assignment (Práctica 3.1, "Regresión lineal", Intelixencia Artificial G4012328, USC, 2026/27; teacher Nicolás Vila Blanco). It is a guided Jupyter notebook on linear regression with pandas, matplotlib and scikit-learn, followed by a free modelling exercise.
 
-This folder is `Practica3.1/` inside the course repo, whose git root is the parent `IA/` folder. It is tracked in git and pushed to GitHub, with its own section in `../README.md`; `.venv/` and the teacher's slides are ignored, and `requirements.txt` pins the packages. Earlier assignments (P0–P2) are only in git now (`git show HEAD:P2/CLAUDE.md`), and `../README.md` describes each one.
+This folder is `Practica3.1/` inside the course repo, whose git root is the parent `IA/` folder. It is tracked in git and pushed to GitHub, with its own section in `../README.md`; `.venv/` is ignored, the teacher's slides are at the repo root as `Regresion lineal.pdf`, and `requirements.txt` pins the packages. Earlier assignments (P0–P2) are only in git now (`git show HEAD:P2/CLAUDE.md`), and `../README.md` describes each one.
 
 ## Files
 
 - `Practica3.1_RegresionLineal.ipynb`: the statement notebook, in **Galician** (answers in Spanish, see below). This is the one that gets submitted.
 - `Practica3.1_RegresionLineal_ES.ipynb`: a working copy in **Spanish**, made for the user to read. Markdown, code comments and printed strings are translated; every identifier (`vivendas`, `prezo`, `ecm`, `desc_grad`, `predicions`…) and all code logic are identical to the Galician one, so code can be moved between them unchanged.
 - `vivendas.csv` (73 rows: `superficie`, `prezo` in thousands of euros) and `cereal.csv` (80 Cereals from Kaggle, 77 rows × 16 columns, target `rating`).
-- `presentacion_regresion_lineal.pdf`: the teacher's slides (`pdftotext presentacion_regresion_lineal.pdf -` reads them). Justify answers with these and with the notebook's own outputs.
+- `../Regresion lineal.pdf`: the teacher's slides (`pdftotext "../Regresion lineal.pdf" -` reads them). Justify answers with these and with the notebook's own outputs.
 
 ## Workflow agreed with the user
 
