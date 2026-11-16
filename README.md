@@ -2,14 +2,14 @@
 
 Prácticas de la asignatura **Inteligencia Artificial** (*Intelixencia Artificial*, G4012328) del **Grado en Ingeniería Informática de la Universidade de Santiago de Compostela (USC)**, curso 2026/2027. Autor: Pablo Pardo Cotos.
 
-Contiene las prácticas P0, P1, P2 y 3.1, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes de teoría no están incluidos.
+Contiene las prácticas P0, P1, P2, 3.1 y 3.2, cada una en su carpeta, con el enunciado y el material que venía con él, mi solución, lo entregado y el entorno de Python que usé. Los apuntes de teoría no están incluidos.
 
 En la raíz:
-- Las presentaciones de teoría: `Busca en espazos de estados.pdf` (P1), `Sistemas baseados en coñecemento.pdf` (P2) y `Regresion lineal.pdf` (Práctica 3.1).
+- Las presentaciones de teoría: `Busca en espazos de estados.pdf` (P1), `Sistemas baseados en coñecemento.pdf` (P2), `Regresion lineal.pdf` (Práctica 3.1) y `Agrupamento.pdf` (Práctica 3.2).
 - `organizacion_practicas_cv.pdf`: organización de las prácticas en el Campus Virtual.
 - `tests.txt`: vacío.
 
-Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1, P2 y 3.1) son instrucciones para asistentes de código, y `P0/.vscode/` y `Practica3.1/.vscode/` son la configuración de VS Code.
+Los ficheros `AGENTS.md` (P0) y `CLAUDE.md` (P1, P2, 3.1 y 3.2) son instrucciones para asistentes de código, y `P0/.vscode/`, `Practica3.1/.vscode/` y `Practica3.2/.vscode/` son la configuración de VS Code.
 
 ## P0 — Introducción a Python
 
@@ -102,6 +102,34 @@ cd Practica3.1
 uv venv --python 3.13
 uv pip install -r requirements.txt
 .venv/bin/jupyter notebook Practica3.1_RegresionLineal.ipynb
+```
+
+## Práctica 3.2 — Clustering
+
+Aprendizaje no supervisado con k-means, en un cuaderno guiado: agrupamiento de las viviendas (superficie y precio) con una implementación propia de k-means, inicialización aleatoria múltiple de los centroides, elección del número de grupos con el método del codo y comparación con `KMeans` de scikit-learn. Al final hay un ejercicio libre de clustering sobre un dataset de pacientes cardíacos.
+
+**Material del enunciado:**
+- `Practica3.2_Clustering.ipynb` traía el enunciado, en gallego, con el código proporcionado.
+- `vivendas.csv`: el mismo dataset de viviendas de la Práctica 3.1.
+- `heart_disease_patients.csv`: el dataset del ejercicio libre (*Heart Disease Patients*, de Kaggle, 303 pacientes y 11 variables más un identificador, sin la columna del diagnóstico).
+- Las diapositivas de teoría que la acompañan están en la raíz, en `Agrupamento.pdf`.
+
+**Mi trabajo:**
+- `Practica3.2_Clustering.ipynb`: el cuaderno entregado. El enunciado sigue en gallego y las respuestas a las preguntas 1 a 7 y el ejercicio libre están en español. La única línea cambiada del código proporcionado es `algorithm='full'`, que pasa a `algorithm='lloyd'` porque scikit-learn eliminó `'full'` en la versión 1.3.
+- `Practica3.2_Clustering_ES.ipynb`: una copia de trabajo traducida al español, con las mismas respuestas y el mismo ejercicio libre. Los identificadores y el código son los mismos que en el original. No se entregó.
+- El ejercicio libre agrupa a los pacientes con 5 variables numéricas (`age`, `trestbps`, `chol`, `thalach` y `oldpeak`), estandarizadas, usando `KMeans` con 10 inicializaciones. El método del codo da k = 3, y los grupos se interpretan como tres perfiles: mala respuesta al esfuerzo (86 pacientes), jóvenes en buena forma (147) y presión y colesterol altos (70). El código solo usa funciones que ya aparecen en la parte guiada.
+- `resumen/`: un resumen en LaTeX de la teoría de la práctica (aprendizaje no supervisado, k-means, método del codo), con su PDF compilado `Resumen_Clustering.pdf`.
+- `entrega/`: lo entregado en el Campus Virtual (`PARDO_COTOS_PABLO_Clustering.ipynb` ejecutado, su exportación `.html`, `heart_disease_patients.csv` y el `.zip` tal como se subió).
+
+### Cómo ejecutarlo
+
+Requiere Python 3 con Jupyter, pandas, NumPy, matplotlib y scikit-learn 1.3 o posterior. Las versiones exactas que usé (Python 3.13 en macOS) están en `Practica3.2/requirements.txt`. Ejecuta el cuaderno desde la carpeta `Practica3.2/`, porque lee los `.csv` por ruta relativa:
+
+```
+cd Practica3.2
+uv venv --python 3.13
+uv pip install -r requirements.txt
+.venv/bin/jupyter notebook Practica3.2_Clustering.ipynb
 ```
 
 ## El entorno de Python

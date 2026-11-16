@@ -1,0 +1,247 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+\fi
+\usepackage[spanish,es-tabla,es-nodecimaldot,es-noquoting,es-noshorthands]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.misc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Resumen: aprendizaje no supervisado y k-means},pdfauthor={Pablo Pardo Cotos},pdfsubject={Intelixencia Artificial}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist{itemsep=2pt,topsep=3pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\definecolor{azul}{HTML}{17486C}
+\definecolor{verde}{HTML}{22685E}
+\definecolor{papel}{HTML}{F1F6F9}
+\definecolor{c0}{HTML}{2A6FB0}
+\definecolor{c1}{HTML}{D9822B}
+\definecolor{c2}{HTML}{3C9A5F}
+
+\newtcolorbox{idea}{colback=papel,colframe=azul!60,boxrule=0.6pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+\newtcolorbox{ojo}{colback=Maroon!5,colframe=Maroon!60,boxrule=0.6pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+
+\begin{document}
+
+\begin{center}
+  {\small Universidade de Santiago de Compostela · Intelixencia Artificial · Práctica 3.2}\\[6pt]
+  {\LARGE\bfseries Aprendizaje no supervisado y k-means}\\[4pt]
+  {\large Resumen de la teoría de la práctica}\\[4pt]
+  {\small Pablo Pardo Cotos · Curso 2026--2027}
+\end{center}
+\vspace{4pt}
+
+\begin{idea}
+\textbf{En una frase:} el aprendizaje \emph{supervisado} aprende a responder una pregunta cuya respuesta le enseñas;
+el \emph{no supervisado} descubre qué grupos o patrones hay escondidos en datos que no traen respuesta.\par
+\textbf{Flujo de la práctica:} datos sin etiquetas $\to$ preprocesar (elegir variables, escalar) $\to$ k-means con varias
+inicializaciones para cada $k$ $\to$ método del codo $\to$ agrupamiento final $\to$ visualizar e interpretar.
+\end{idea}
+
+%-------------------------------------------------------------
+\section{Supervisado frente a no supervisado}
+
+En el aprendizaje \textbf{supervisado} los datos traen una \textbf{etiqueta}: una columna con la respuesta correcta,
+normalmente puesta a mano por una persona o sacada de un registro (en la Práctica 3.1, la columna \texttt{prezo}).
+El modelo adivina, compara con la etiqueta, mide el error y se corrige.
+En el \textbf{no supervisado} esa columna \textbf{no existe}: solo están las características, y lo único que puede
+hacer el algoritmo es juntar los ejemplos que se parecen.
+
+\textbf{Mismo problema de las dos formas.} Tenemos 1000 fotos de frutas, y de cada una sabemos su color y su forma.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l Y Y@{}}
+\toprule
+ & \textbf{Supervisado} & \textbf{No supervisado} \\
+\midrule
+Datos & color, forma \textbf{y etiqueta} (manzana, plátano, naranja) & solo color y forma \\
+Cómo aprende & adivina, compara con la etiqueta y se corrige & agrupa las fotos que se parecen \\
+Ante una foto nueva & «es un plátano» & «va al grupo 1» \\
+¿Sabe los nombres? & sí, se los has enseñado & no: eres tú quien mira el grupo 1 y dice «son plátanos» \\
+Medir el acierto & comparando con el valor real & no hay valor real: se mide lo compactos que son los grupos \\
+Train / test & sí & no hace falta \\
+Al final & evalúas el error & \textbf{interpretas} qué significa cada grupo \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+¿Para qué sirve si no sabe los nombres? Porque muchas veces nadie tiene las etiquetas o ni siquiera se sabe qué
+grupos existen. Con los pacientes cardíacos de la práctica nadie dice qué «tipos de paciente» hay: el clustering los descubre.
+
+%-------------------------------------------------------------
+\section{Clustering: parecerse es estar cerca}
+
+El \textbf{clustering} (agrupamiento) reparte los ejemplos en grupos de forma que los de un mismo grupo se parezcan
+mucho entre sí y los de grupos distintos se parezcan poco. Cada ejemplo es un \textbf{punto} en el espacio
+(una vivienda es el punto (superficie, precio); un paciente, un punto de 11 dimensiones) y «parecerse» se mide con
+la \textbf{distancia euclídea}:
+\[
+d(a,b)=\sqrt{(a_1-b_1)^2+(a_2-b_2)^2+\dots+(a_n-b_n)^2}.
+\]
+
+%-------------------------------------------------------------
+\section{El algoritmo k-means}
+
+Antes de empezar se elige $k$, el número de grupos. Cada grupo se representa por un \textbf{centroide}, su «centro».
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{Inicialización.} Se ponen $k$ centroides al azar (en la práctica, $k$ ejemplos del propio dataset).
+  \item \textbf{Asignación.} Cada punto se va al grupo de su centroide más cercano.
+  \item \textbf{Actualización.} Cada centroide se mueve a la \textbf{media} de los puntos de su grupo.
+  \item \textbf{Repetir} 2 y 3 hasta que ningún punto cambie de grupo (o durante $n$ iteraciones fijas).
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[x=0.55cm,y=0.55cm,
+  p/.style={circle,inner sep=1.3pt,fill=#1},
+  cen/.style={draw=black,line width=1.6pt,cross out,minimum size=7pt,inner sep=0pt}]
+  % Panel 1: inicio
+  \begin{scope}
+    \draw[gray!50] (0,0) rectangle (8,7);
+    \foreach \x/\y in {1/1,1.6/1.8,2.2/1.2,1.3/2.4,2.4/2.2,
+                       5.6/5.2,6.4/5.9,6.8/5.0,5.9/6.2,7.1/6.0,
+                       5.8/1.4,6.6/2.0,7.0/1.2,6.1/2.4,6.9/2.6}
+      \node[p=gray] at (\x,\y) {};
+    \node[cen] at (2.4,2.2) {};\node[cen] at (6.1,2.4) {};\node[cen] at (6.9,2.6) {};
+    \node[below,align=center,font=\small] at (4,0) {1. Centroides al azar};
+  \end{scope}
+  % Panel 2: primera asignación
+  \begin{scope}[xshift=5.4cm]
+    \draw[gray!50] (0,0) rectangle (8,7);
+    \foreach \x/\y in {1/1,1.6/1.8,2.2/1.2,1.3/2.4,2.4/2.2} \node[p=c0] at (\x,\y) {};
+    \foreach \x/\y in {6.4/5.9,6.8/5.0,5.9/6.2,7.1/6.0,7.0/1.2,6.9/2.6} \node[p=c1] at (\x,\y) {};
+    \foreach \x/\y in {5.6/5.2,5.8/1.4,6.6/2.0,6.1/2.4} \node[p=c2] at (\x,\y) {};
+    \node[cen] at (2.4,2.2) {};\node[cen] at (6.1,2.4) {};\node[cen] at (6.9,2.6) {};
+    \node[below,align=center,font=\small] at (4,0) {2. Cada punto al más cercano};
+  \end{scope}
+  % Panel 3: final
+  \begin{scope}[xshift=10.8cm]
+    \draw[gray!50] (0,0) rectangle (8,7);
+    \foreach \x/\y in {1/1,1.6/1.8,2.2/1.2,1.3/2.4,2.4/2.2} \node[p=c0] at (\x,\y) {};
+    \foreach \x/\y in {5.6/5.2,6.4/5.9,6.8/5.0,5.9/6.2,7.1/6.0} \node[p=c1] at (\x,\y) {};
+    \foreach \x/\y in {5.8/1.4,6.6/2.0,7.0/1.2,6.1/2.4,6.9/2.6} \node[p=c2] at (\x,\y) {};
+    \node[cen] at (1.7,1.7) {};\node[cen] at (6.36,5.66) {};\node[cen] at (6.48,1.92) {};
+    \draw[-{Latex},thick,gray] (6.9,2.6) -- (6.4,5.2);
+    \node[below,align=center,font=\small] at (4,0) {3--4. Mover y repetir: converge};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+Intuitivamente, los centroides van «cayendo» hacia el centro de cada nube de puntos hasta quedarse quietos.
+
+%-------------------------------------------------------------
+\section{La matemática por debajo}
+
+\textbf{Datos:} puntos $x^{(1)},\dots,x^{(m)}$. \textbf{Objetivo:} encontrar centroides $\mu_1,\dots,\mu_k$ y una
+asignación $c^{(i)}\in\{1,\dots,k\}$ de cada punto que minimicen
+\[
+J=\frac{1}{m}\sum_{i=1}^{m}\bigl\lVert x^{(i)}-\mu_{c^{(i)}}\bigr\rVert^2 ,
+\]
+es decir, que cada punto esté lo más cerca posible de su centroide. k-means alterna dos minimizaciones:
+
+\begin{itemize}
+  \item \textbf{Asignación} (fijos los $\mu$, minimiza en $c$):\quad
+        $c^{(i)}=\arg\min_{j}\ \lVert x^{(i)}-\mu_j\rVert$.
+  \item \textbf{Actualización} (fijos los $c$, minimiza en $\mu$):\quad
+        $\displaystyle \mu_j=\frac{1}{|C_j|}\sum_{i\in C_j}x^{(i)}$,\quad donde $C_j$ son los puntos del grupo $j$.
+        La media es justo el punto que minimiza la suma de distancias al cuadrado.
+\end{itemize}
+
+\textbf{Por qué termina:} cada paso hace que $J$ baje o se quede igual, y hay un número finito de formas de repartir
+los puntos, así que el algoritmo acaba parándose. Pero se para en un \textbf{mínimo local}, no necesariamente el mejor.
+
+\textbf{Comparación con la regresión (P3.1):} allí $J$ era el error cuadrático entre predicción y valor real;
+aquí no hay valor real, así que se mide la distancia de cada punto a su centroide.
+
+\begin{ojo}
+\textbf{Detalle del cuaderno.} La función \texttt{j()} de la práctica usa la distancia \emph{sin} elevar al cuadrado
+(distancia media al centroide). La versión clásica de arriba y el atributo \texttt{inertia\_} de scikit-learn usan la
+distancia \emph{al cuadrado}, y \texttt{inertia\_} además es una suma, sin dividir entre $m$. Por eso, en las viviendas,
+\texttt{inertia\_/len(vivendas)} da $2072{,}6$ mientras que \texttt{j()} da $39{,}66$, aunque el agrupamiento es el mismo.
+\end{ojo}
+
+%-------------------------------------------------------------
+\section{Dos problemas prácticos}
+
+\subsection*{Mínimos locales $\Rightarrow$ inicialización múltiple}
+El resultado depende de dónde empiecen los centroides; con mala suerte se llega a una solución peor.
+Solución: ejecutar k-means $m$ veces con inicios distintos y quedarse con el de \textbf{menor coste}
+(\texttt{k\_medias\_multi\_ini} en la práctica; parámetro \texttt{n\_init} en \texttt{KMeans}).
+Además, los números de los grupos son arbitrarios: dos ejecuciones pueden dar los mismos grupos con las etiquetas cambiadas.
+
+\subsection*{¿Qué $k$? $\Rightarrow$ método del codo}
+\begin{minipage}[c]{0.52\linewidth}\raggedright
+Más grupos siempre dan menos coste (con $k=m$, cada punto es su propio grupo y $J=0$), así que no se puede elegir el $k$
+de menor coste. Se representa $J$ frente a $k$ y se elige el punto a partir del cual añadir un grupo apenas mejora:
+el \textbf{codo}. En las viviendas sale $k=4$.\par
+En el script del codo se ejecuta k-means
+$9 \text{ valores de } k \times 10 \text{ inicializaciones} = 90$ veces.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.45\linewidth}
+\begin{tikzpicture}
+\begin{axis}[width=\linewidth,height=4.6cm,xlabel={$k$},ylabel={coste $J$},
+  xtick={2,...,10},ymin=10,ymax=55,grid=major,grid style={gray!20},
+  tick label style={font=\footnotesize},label style={font=\small},
+  title={\small Viviendas (datos reales de la práctica)}]
+\addplot[verde,thick,dashed,mark=*,mark size=1.4pt] coordinates
+  {(2,51.25)(3,39.66)(4,31.04)(5,27.83)(6,25.35)(7,21.85)(8,19.87)(9,18.69)(10,17.11)};
+\draw[Maroon,thick] (axis cs:4,31.04) circle[radius=4pt];
+\node[Maroon,font=\footnotesize,anchor=south west] at (axis cs:4.1,32) {codo};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
+%-------------------------------------------------------------
+\section{Dónde está cada paso en el código}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l Y@{}}
+\toprule
+\textbf{Paso} & \textbf{Código de la práctica} \\
+\midrule
+1. Inicialización & \texttt{np.random.choice(...)} $\to$ \texttt{centroides\_iniciais} \\
+2. Asignación & \texttt{calcula\_distancias(x, centroides)} (matriz $m\times k$ de distancias) y \texttt{np.argmin(..., axis=1)} \\
+3. Actualización & \texttt{actualiza\_centr}: \texttt{np.sum(x\_cluster\_i, axis=0)/x\_cluster\_i.shape[0]}, la media del grupo \\
+4. Repetir & el bucle \texttt{for i in range(iteracions)} de \texttt{k\_medias} \\
+Coste & \texttt{j(x, centroides, clusters)} \\
+Varias inicializaciones & \texttt{k\_medias\_multi\_ini}: se queda con el \texttt{argmin} de los costes finales \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+%-------------------------------------------------------------
+\section{Para la parte libre (pacientes cardíacos)}
+
+\begin{itemize}
+  \item \textbf{Escalar las variables} (\texttt{StandardScaler}: media 0, desviación 1). Es lo más importante: k-means usa
+        distancias, y sin escalar el colesterol (200--400) dominaría sobre \texttt{oldpeak} (0--6) o \texttt{sex} (0/1).
+  \item \textbf{Elegir variables} (más de dos, obligatorio). Las continuas (\texttt{age}, \texttt{trestbps}, \texttt{chol},
+        \texttt{thalach}, \texttt{oldpeak}) encajan bien; las categóricas (\texttt{cp}, \texttt{restecg}, \texttt{slope}) son
+        códigos, no cantidades, y conviene dejarlas fuera o usarlas solo para interpretar. Quitar \texttt{id}.
+  \item \textbf{Explorar antes}: \texttt{describe()}, histogramas, correlaciones, valores raros.
+  \item \textbf{Elegir $k$} con el método del codo usando \texttt{KMeans} y su \texttt{inertia\_}.
+  \item \textbf{Visualizar} por pares de variables coloreando por grupo (o reducir a 2D con PCA).
+  \item \textbf{Interpretar}: con \texttt{df.groupby('cluster').mean()}, calcular la media de cada variable por grupo
+        (sobre los datos sin escalar) y ponerle un significado a cada grupo
+        (p.\,ej. «mayores, poca frecuencia cardíaca máxima, angina de esfuerzo: perfil de mayor riesgo»).
+\end{itemize}
+
+
+\end{document}
