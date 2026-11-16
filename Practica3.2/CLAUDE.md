@@ -26,7 +26,17 @@ This folder is `Practica3.2/` inside the course repo, whose git root is the pare
 
 ## Environment and commands
 
-`.venv/` is a uv venv with Python 3.13 (pandas 3.1, numpy 2.5, scikit-learn 1.9, matplotlib, Jupyter). `.vscode/settings.json` points VS Code at it. There is no seaborn.
+The work was done between 9 and 16 November 2026 on a Mac with Apple Silicon (arm64), macOS 26.6 (25G72), with CPython 3.13.18 installed by uv and a uv 0.13.6 venv at `.venv/`: pandas 3.1.1, numpy 2.5.4, scikit-learn 1.9.1, matplotlib 3.10.9, scipy 1.18.1, Jupyter 1.1.1 (notebook 7.6.5, jupyterlab 4.6.6, ipykernel 7.4.0, nbconvert 7.17.2); exact pins in `requirements.txt`. There is no seaborn. Kernel: the venv's `python3`, shown as ".venv (3.13)" (the teacher's notebook named a kernel `ia` / Python 3.10.14). `.vscode/settings.json` points VS Code at the venv and runs notebooks from this folder. `resumen/` was compiled with Tectonic 0.17.0.
+
+`.venv/` is not in git, and the whole local `Practica3.2/` folder was deleted from the user's disk on 16 November 2026 after verifying the push (moved to the macOS Trash as "Practica3.2 (IA)"). To work on it again, check out the folder from git and recreate the venv:
+
+```bash
+uv python install 3.13.18
+uv venv --python 3.13.18
+uv pip install -r requirements.txt
+```
+
+All random steps use fixed seeds, so with these versions the results are reproducible (free exercise: clusters of 86, 147 and 70 patients).
 
 The provided `KMeans(..., algorithm='full')` fails with scikit-learn ≥ 1.3; both notebooks use `algorithm='lloyd'` (same algorithm), with a comment. That is the only change to the provided code.
 

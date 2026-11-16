@@ -121,16 +121,35 @@ Aprendizaje no supervisado con k-means, en un cuaderno guiado: agrupamiento de l
 - `resumen/`: un resumen en LaTeX de la teoría de la práctica (aprendizaje no supervisado, k-means, método del codo), con su PDF compilado `Resumen_Clustering.pdf`.
 - `entrega/`: lo entregado en el Campus Virtual (`PARDO_COTOS_PABLO_Clustering.ipynb` ejecutado, su exportación `.html`, `heart_disease_patients.csv` y el `.zip` tal como se subió).
 
+### Entorno en el que se hizo
+
+Todo se hizo y se ejecutó entre el 9 y el 16 de noviembre de 2026 en este entorno:
+
+- **Equipo:** Mac con Apple Silicon (arm64) y macOS 26.6 (compilación 25G72).
+- **Python:** CPython 3.13.18 instalado con uv, en un entorno virtual `Practica3.2/.venv/` creado con uv 0.13.6.
+- **Paquetes principales:** pandas 3.1.1, NumPy 2.5.4, scikit-learn 1.9.1, matplotlib 3.10.9 y SciPy 1.18.1. Para los cuadernos: Jupyter 1.1.1, Notebook 7.6.5, JupyterLab 4.6.6, ipykernel 7.4.0 y nbconvert 7.17.2. No hay seaborn. La lista completa con versiones exactas está en `Practica3.2/requirements.txt`.
+- **Núcleo de Jupyter:** el `python3` del `.venv`, que aparece como «.venv (3.13)». El cuaderno del profesor venía preparado para un núcleo llamado `ia` con Python 3.10.14.
+- **Editor:** VS Code con la extensión de Jupyter. `Practica3.2/.vscode/settings.json` usa el `.venv` como intérprete y ejecuta los cuadernos desde la carpeta de la práctica.
+- **Ejecución y entrega:** los cuadernos se ejecutaron de principio a fin con `jupyter nbconvert --execute` desde `Practica3.2/`, sin errores. La exportación a HTML se hizo con nbconvert 7.17.2.
+- **Resumen de teoría:** `resumen/Resumen_Clustering.pdf` se compiló con Tectonic 0.17.0 (XeTeX), porque la instalación de LaTeX del equipo no tiene los patrones de guionado del español.
+
+El `.venv/` (unos 460 MB) no está en el repositorio, porque se recrea con `requirements.txt`. Se borró del equipo el 16 de noviembre de 2026, junto con el resto de la carpeta local, después de comprobar que todo lo demás estaba subido.
+
+Los resultados son reproducibles: todas las operaciones aleatorias usan una semilla fija. Con estas versiones, el ejercicio de los pacientes da siempre los mismos 3 grupos (86, 147 y 70 pacientes). La única dependencia de versión es `algorithm='lloyd'` en `KMeans`, que existe desde scikit-learn 1.1. El `algorithm='full'` original del enunciado da error desde la 1.3.
+
 ### Cómo ejecutarlo
 
-Requiere Python 3 con Jupyter, pandas, NumPy, matplotlib y scikit-learn 1.3 o posterior. Las versiones exactas que usé (Python 3.13 en macOS) están en `Practica3.2/requirements.txt`. Ejecuta el cuaderno desde la carpeta `Practica3.2/`, porque lee los `.csv` por ruta relativa:
+Ejecuta el cuaderno desde la carpeta `Practica3.2/`, porque lee los `.csv` por ruta relativa. Para recrear el entorno exacto con uv:
 
 ```
 cd Practica3.2
-uv venv --python 3.13
+uv python install 3.13.18
+uv venv --python 3.13.18
 uv pip install -r requirements.txt
 .venv/bin/jupyter notebook Practica3.2_Clustering.ipynb
 ```
+
+Sin uv, con cualquier Python 3.13: `python3.13 -m venv .venv` y `.venv/bin/pip install -r requirements.txt`.
 
 ## El entorno de Python
 
